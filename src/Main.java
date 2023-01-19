@@ -1,4 +1,6 @@
 
+import entities.Admin;
+
 import java.util.Scanner;
 
 public class Main {

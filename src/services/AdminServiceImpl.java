@@ -1,18 +1,19 @@
-import java.util.ArrayList;
+package services;
+
+import entities.Author;
+import entities.Book;
+import data.BookList;
+
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
-public class Admin extends User {
+public class AdminServiceImpl implements AdminService {
 
-    private List<Book> books;
+    // private List<Book> books = new ArrayList<>();
 
-    public Admin(String name, String lastName, int ID) {
-        super(name, lastName, ID);
-        this.books = new ArrayList<>();
-    }
-
+    @Override
     public void addBook() {
+
         Scanner scan = new Scanner(System.in);
         System.out.print("Enter title: ");
         String title = scan.nextLine();
@@ -25,35 +26,44 @@ public class Admin extends User {
 
         Author author = new Author(authorName);
         Book book = new Book(title, author, ISBN);
-        books.add(book);
-        System.out.println("Book has been added successfully");
+
+        BookList bookList = new BookList();
+        bookList.getBooks().add(book);
+        System.out.println("entities.Book has been added successfully");
     }
 
+    @Override
     public void removeBook() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter ISBN of book to remove:");
         int ISBN = scan.nextInt();
-        for (int i = 0; i < books.size(); i++) {
-            if (books.get(i).getISBN() == ISBN) {
-                books.remove(i);
-                System.out.println("Book has been removed successfully");
+        BookList bookList = new BookList();
+
+        for (int i = 0; i < bookList.getBooks().size(); i++) {
+            if (bookList.getBooks().get(i).getISBN() == ISBN) {
+                bookList.getBooks().remove(i);
+                System.out.println("entities.Book has been removed successfully");
                 return;
             }
         }
-        System.out.println("Book not found");
+        System.out.println("entities.Book not found");
+
     }
 
+    @Override
     public void checkAvailability() {
+
         try {
             Scanner scan = new Scanner(System.in);
             System.out.println("Enter ISBN of book to check availability:");
             int ISBN = scan.nextInt();
-            for (int i = 0; i < books.size(); i++) {
-                if (books.get(i).getISBN() == ISBN) {
-                    if (books.get(i).isAvailable()) {
-                        System.out.println("Book is available");
+            BookList bookList = new BookList();
+            for (int i = 0; i < bookList.getBooks().size(); i++) {
+                if (bookList.getBooks().get(i).getISBN() == ISBN) {
+                    if (bookList.getBooks().get(i).isAvailable()) {
+                        System.out.println("entities.Book is available");
                     } else {
-                        System.out.println("Book is not available");
+                        System.out.println("entities.Book is not available");
                     }
                     return;
                 }
@@ -62,6 +72,6 @@ public class Admin extends User {
         } catch (InputMismatchException e) {
             System.out.println("Invalid input, please enter a valid ISBN number");
         }
+
     }
 }
-
