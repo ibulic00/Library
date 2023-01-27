@@ -18,6 +18,8 @@ public class UserServiceImpl implements UserService {
                 book = b;
                 break;
             }
+            System.out.println("Sorry, the book is not available for borrowing.");
+
             if (book != null) {
                 book.setAvailable(false);
                 user.getBorrowedBooks().add(book);
@@ -26,14 +28,27 @@ public class UserServiceImpl implements UserService {
                 System.out.println("Sorry, the book is not available for borrowing.");
             }
         }
+    }
 
+    @Override
+    public void returnBook(User user, String bookName) {
 
-        @Override
-        public void returnBook (User user,int ISBN){
-
-
-
+        Book returnedBook = null;
+        for (int i = 0; i < user.getBorrowedBooks().size(); i++) {
+            Book b = (Book) user.getBorrowedBooks().get(i);
+            if (b.getTitle().equals(bookName)) {
+                returnedBook = b;
+                break;
+            }
         }
 
+        if (returnedBook != null) {
+            returnedBook.setAvailable(true);
+            user.getBorrowedBooks().remove(returnedBook);
+            System.out.println("Book successfully returned.");
+        } else {
+            System.out.println("You have not borrowed this book.");
         }
+    }
+}
 
